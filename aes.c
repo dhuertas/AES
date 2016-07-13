@@ -172,10 +172,10 @@ void add_round_key(uint8_t *state, uint8_t *w, uint8_t r) {
 	uint8_t c;
 	
 	for (c = 0; c < Nb; c++) {
-		state[Nb*0+c] = state[Nb*0+c]^w[4*Nb*r+Nb*c+0];
-		state[Nb*1+c] = state[Nb*1+c]^w[4*Nb*r+Nb*c+1];
-		state[Nb*2+c] = state[Nb*2+c]^w[4*Nb*r+Nb*c+2];
-		state[Nb*3+c] = state[Nb*3+c]^w[4*Nb*r+Nb*c+3];	
+		state[Nb*0+c] = state[Nb*0+c]^w[4*Nb*r+4*c+0];   //debug, so it works for Nb !=4 
+		state[Nb*1+c] = state[Nb*1+c]^w[4*Nb*r+4*c+1];
+		state[Nb*2+c] = state[Nb*2+c]^w[4*Nb*r+4*c+2];
+		state[Nb*3+c] = state[Nb*3+c]^w[4*Nb*r+4*c+3];	
 	}
 }
 
