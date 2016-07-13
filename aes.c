@@ -146,18 +146,7 @@ static uint8_t inv_s_box[256] = {
 uint8_t R[] = {0x02, 0x00, 0x00, 0x00};
  
 uint8_t * Rcon(uint8_t i) {
-	
-	if (i == 1) {
-		R[0] = 0x01; // x^(1-1) = x^0 = 1
-	} else if (i > 1) {
-		R[0] = 0x02;
-		i--;
-		while (i-1 > 0) {
-			R[0] = gmult(R[0], 0x02);
-			i--;
-		}
-	}
-	
+  R[0] = 0x01 << (i-1);       // simplify the code 
 	return R;
 }
 
