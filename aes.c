@@ -5,9 +5,7 @@
  *
  * Based on the document FIPS PUB 197
  */
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdint.h>
+#include "aes.h"
 
 /*
  * Addition in GF(2^8)
@@ -344,7 +342,7 @@ void rot_word(uint8_t *w) {
 /*
  * Key Expansion
  */
-void key_expansion(uint8_t *key, uint8_t *w) {
+void aes_key_expansion(uint8_t *key, uint8_t *w) {
 
 	uint8_t tmp[4];
 	uint8_t i, j;
@@ -382,7 +380,26 @@ void key_expansion(uint8_t *key, uint8_t *w) {
 	}
 }
 
-void cipher(uint8_t *in, uint8_t *out, uint8_t *w) {
+
+/*
+ * Initialize AES variables and allocate memory for expanded key
+ */
+uint8_t *aes_init(size_t key_size) {
+
+        switch (key_size) {
+		default:
+		case 16: Nk = 4; Nr = 10; break;
+		case 24: Nk = 6; Nr = 12; break;
+		case 32: Nk = 8; Nr = 14; break;
+	}
+
+	return malloc(Nb*(Nr+1)*4);
+}
+
+/*
+ * Performs the AES cipher operation
+ */
+void aes_cipher(uint8_t *in, uint8_t *out, uint8_t *w) {
 
 	uint8_t state[4*Nb];
 	uint8_t r, i, j;
@@ -413,7 +430,10 @@ void cipher(uint8_t *in, uint8_t *out, uint8_t *w) {
 	}
 }
 
-void inv_cipher(uint8_t *in, uint8_t *out, uint8_t *w) {
+/*
+ * Performs the AES inverse cipher operation
+ */
+void aes_inv_cipher(uint8_t *in, uint8_t *out, uint8_t *w) {
 
 	uint8_t state[4*Nb];
 	uint8_t r, i, j;
@@ -442,122 +462,4 @@ void inv_cipher(uint8_t *in, uint8_t *out, uint8_t *w) {
 			out[i+4*j] = state[Nb*i+j];
 		}
 	}
-}
-
-int main(int argc, char *argv[]) {
-
-	uint8_t i;
-
-	/*
-	 * Appendix A - Key Expansion Examples
-	 */
-	 
-	/* 128 bits */
-	/* uint8_t key[] = {
-		0x2b, 0x7e, 0x15, 0x16,
-		0x28, 0xae, 0xd2, 0xa6,
-		0xab, 0xf7, 0x15, 0x88,
-		0x09, 0xcf, 0x4f, 0x3c}; */
-	
-	/* 192 bits */
-	/* uint8_t key[] = {
-		0x8e, 0x73, 0xb0, 0xf7,
-		0xda, 0x0e, 0x64, 0x52,
-		0xc8, 0x10, 0xf3, 0x2b,
-		0x80, 0x90, 0x79, 0xe5,
-		0x62, 0xf8, 0xea, 0xd2,
-		0x52, 0x2c, 0x6b, 0x7b}; */
-	
-	/* 256 bits */
-	/* uint8_t key[] = {
-		0x60, 0x3d, 0xeb, 0x10,
-		0x15, 0xca, 0x71, 0xbe,
-		0x2b, 0x73, 0xae, 0xf0,
-		0x85, 0x7d, 0x77, 0x81,
-		0x1f, 0x35, 0x2c, 0x07,
-		0x3b, 0x61, 0x08, 0xd7,
-		0x2d, 0x98, 0x10, 0xa3,
-		0x09, 0x14, 0xdf, 0xf4};
-	*/
-	
-	/* uint8_t in[] = {
-		0x32, 0x43, 0xf6, 0xa8,
-		0x88, 0x5a, 0x30, 0x8d,
-		0x31, 0x31, 0x98, 0xa2,
-		0xe0, 0x37, 0x07, 0x34}; // 128
-	*/
-
-	/*
-	 * Appendix C - Example Vectors
-	 */
-
-	/* 128 bit key */
-	/* uint8_t key[] = {
-		0x00, 0x01, 0x02, 0x03, 
-		0x04, 0x05, 0x06, 0x07, 
-		0x08, 0x09, 0x0a, 0x0b, 
-		0x0c, 0x0d, 0x0e, 0x0f}; */
-	
-	/* 192 bit key */
-	/* uint8_t key[] = {
-		0x00, 0x01, 0x02, 0x03,
-		0x04, 0x05, 0x06, 0x07,
-		0x08, 0x09, 0x0a, 0x0b,
-		0x0c, 0x0d, 0x0e, 0x0f,
-		0x10, 0x11, 0x12, 0x13,
-		0x14, 0x15, 0x16, 0x17}; */
-	
-	/* 256 bit key */
-	uint8_t key[] = {
-		0x00, 0x01, 0x02, 0x03,
-		0x04, 0x05, 0x06, 0x07,
-		0x08, 0x09, 0x0a, 0x0b,
-		0x0c, 0x0d, 0x0e, 0x0f,
-		0x10, 0x11, 0x12, 0x13,
-		0x14, 0x15, 0x16, 0x17,
-		0x18, 0x19, 0x1a, 0x1b,
-		0x1c, 0x1d, 0x1e, 0x1f};
-
-	uint8_t in[] = {
-		0x00, 0x11, 0x22, 0x33,
-		0x44, 0x55, 0x66, 0x77,
-		0x88, 0x99, 0xaa, 0xbb,
-		0xcc, 0xdd, 0xee, 0xff};
-	
-	uint8_t out[16]; // 128
-	
-	uint8_t *w; // expanded key
-
-	switch (sizeof(key)) {
-		default:
-		case 16: Nk = 4; Nr = 10; break;
-		case 24: Nk = 6; Nr = 12; break;
-		case 32: Nk = 8; Nr = 14; break;
-	}
-	
-	w = malloc(Nb*(Nr+1)*4);
-
-	key_expansion(key, w);
-
-	cipher(in /* in */, out /* out */, w /* expanded key */);
-
-	printf("out:\n");
-	
-	for (i = 0; i < 4; i++) {
-		printf("%x %x %x %x ", out[4*i+0], out[4*i+1], out[4*i+2], out[4*i+3]);
-	}
-
-	printf("\n");
-
-	inv_cipher(out, in, w);
-
-	printf("msg:\n");
-	for (i = 0; i < 4; i++) {
-		printf("%x %x %x %x ", in[4*i+0], in[4*i+1], in[4*i+2], in[4*i+3]);
-	}
-
-	printf("\n");
-
-	exit(0);
-
 }
