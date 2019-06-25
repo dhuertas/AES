@@ -27,6 +27,9 @@ uint8_t gsub(uint8_t a, uint8_t b) {
  * Multiplication in GF(2^8)
  * http://en.wikipedia.org/wiki/Finite_field_arithmetic
  * Irreducible polynomial m(x) = x8 + x4 + x3 + x + 1
+ *
+ * NOTE: This function can be easily replaced with a look up table for a speed 
+ *       boost, at the expense of an increase in memory size (around 65 KB).
  */
 uint8_t gmult(uint8_t a, uint8_t b) {
 
