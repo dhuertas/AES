@@ -6,6 +6,7 @@
  * Based on the document FIPS PUB 197
  */
 #include "aes.h"
+#include "gmult.h"
 
 /*
  * Addition in GF(2^8)
@@ -29,8 +30,8 @@ uint8_t gsub(uint8_t a, uint8_t b) {
  * Irreducible polynomial m(x) = x8 + x4 + x3 + x + 1
  *
  * NOTE: This function can be easily replaced with a look up table for a speed 
- *       boost, at the expense of an increase in memory size (around 65 KB).
- */
+ *       boost, at the expense of an increase in memory size (around 65 KB). See
+ *       the aes.h header file to find the macro definition.
 uint8_t gmult(uint8_t a, uint8_t b) {
 
 	uint8_t p = 0, i = 0, hbs = 0;
@@ -48,6 +49,7 @@ uint8_t gmult(uint8_t a, uint8_t b) {
 
 	return (uint8_t)p;
 }
+*/
 
 /*
  * Addition of 4 byte words

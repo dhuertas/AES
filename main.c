@@ -100,7 +100,7 @@ int main(int argc, char *argv[]) {
 
 	printf("Plaintext message:\n");
 	for (i = 0; i < 4; i++) {
-		printf("%x %x %x %x ", in[4*i+0], in[4*i+1], in[4*i+2], in[4*i+3]);
+		printf("%02x %02x %02x %02x ", in[4*i+0], in[4*i+1], in[4*i+2], in[4*i+3]);
 	}
 
 	printf("\n");
@@ -109,7 +109,7 @@ int main(int argc, char *argv[]) {
 
 	printf("Ciphered message:\n");
 	for (i = 0; i < 4; i++) {
-		printf("%x %x %x %x ", out[4*i+0], out[4*i+1], out[4*i+2], out[4*i+3]);
+		printf("%02x %02x %02x %02x ", out[4*i+0], out[4*i+1], out[4*i+2], out[4*i+3]);
 	}
 
 	printf("\n");
@@ -118,7 +118,7 @@ int main(int argc, char *argv[]) {
 
 	printf("Original message (after inv cipher):\n");
 	for (i = 0; i < 4; i++) {
-		printf("%x %x %x %x ", in[4*i+0], in[4*i+1], in[4*i+2], in[4*i+3]);
+		printf("%02x %02x %02x %02x ", in[4*i+0], in[4*i+1], in[4*i+2], in[4*i+3]);
 	}
 
 	printf("\n");
