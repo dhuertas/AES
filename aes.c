@@ -283,13 +283,10 @@ void inv_shift_rows(uint8_t *state) {
 void sub_bytes(uint8_t *state) {
 
 	uint8_t i, j;
-	uint8_t row, col;
-
+	
 	for (i = 0; i < 4; i++) {
 		for (j = 0; j < Nb; j++) {
-			row = (state[Nb*i+j] & 0xf0) >> 4;
-			col = state[Nb*i+j] & 0x0f;
-			state[Nb*i+j] = s_box[16*row+col];
+			state[Nb*i+j] = s_box[state[Nb*i+j]];
 		}
 	}
 }
@@ -301,13 +298,10 @@ void sub_bytes(uint8_t *state) {
 void inv_sub_bytes(uint8_t *state) {
 
 	uint8_t i, j;
-	uint8_t row, col;
 
 	for (i = 0; i < 4; i++) {
 		for (j = 0; j < Nb; j++) {
-			row = (state[Nb*i+j] & 0xf0) >> 4;
-			col = state[Nb*i+j] & 0x0f;
-			state[Nb*i+j] = inv_s_box[16*row+col];
+			state[Nb*i+j] = inv_s_box[state[Nb*i+j]];
 		}
 	}
 }
@@ -322,7 +316,7 @@ void sub_word(uint8_t *w) {
 	uint8_t i;
 
 	for (i = 0; i < 4; i++) {
-		w[i] = s_box[16*((w[i] & 0xf0) >> 4) + (w[i] & 0x0f)];
+		w[i] = s_box[w[i]];
 	}
 }
 

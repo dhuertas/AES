@@ -5,7 +5,7 @@
  *
  * Based on the document FIPS PUB 197
  */
-#include <stddef.h>
+
 #include <stdint.h>
 #include <stdlib.h>
 
