@@ -155,7 +155,7 @@ uint8_t * Rcon(uint8_t i) {
 	} else if (i > 1) {
 		R[0] = 0x02;
 		i--;
-		while (i-1 > 0) {
+		while (i > 1) {
 			R[0] = gmult(R[0], 0x02);
 			i--;
 		}
@@ -350,7 +350,7 @@ void rot_word(uint8_t *w) {
 void aes_key_expansion(uint8_t *key, uint8_t *w) {
 
 	uint8_t tmp[4];
-	uint8_t i, j;
+	uint8_t i;
 	uint8_t len = Nb*(Nr+1);
 
 	for (i = 0; i < Nk; i++) {
