@@ -6,11 +6,10 @@
  * Based on the document FIPS PUB 197
  */
 #include <stdio.h>
-#include <stdlib.h>
 
 #include "aes.h"
 
-int main(int argc, char *argv[]) {
+int main() {
 
 	uint8_t i;
 
@@ -125,5 +124,5 @@ int main(int argc, char *argv[]) {
 
 	free(w);
 
-	exit(0);
+	return 0;
 }

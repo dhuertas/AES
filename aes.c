@@ -155,7 +155,7 @@ uint8_t * Rcon(uint8_t i) {
 	} else if (i > 1) {
 		R[0] = 0x02;
 		i--;
-		while (i-1 > 0) {
+		while (i > 1) {
 			R[0] = gmult(R[0], 0x02);
 			i--;
 		}
@@ -283,13 +283,13 @@ void inv_shift_rows(uint8_t *state) {
 void sub_bytes(uint8_t *state) {
 
 	uint8_t i, j;
-	uint8_t row, col;
-
+	
 	for (i = 0; i < 4; i++) {
 		for (j = 0; j < Nb; j++) {
-			row = (state[Nb*i+j] & 0xf0) >> 4;
-			col = state[Nb*i+j] & 0x0f;
-			state[Nb*i+j] = s_box[16*row+col];
+			// s_box row: yyyy ----
+			// s_box col: ---- xxxx
+			// s_box[16*(yyyy) + xxxx] == s_box[yyyyxxxx]
+			state[Nb*i+j] = s_box[state[Nb*i+j]];
 		}
 	}
 }
@@ -301,13 +301,10 @@ void sub_bytes(uint8_t *state) {
 void inv_sub_bytes(uint8_t *state) {
 
 	uint8_t i, j;
-	uint8_t row, col;
 
 	for (i = 0; i < 4; i++) {
 		for (j = 0; j < Nb; j++) {
-			row = (state[Nb*i+j] & 0xf0) >> 4;
-			col = state[Nb*i+j] & 0x0f;
-			state[Nb*i+j] = inv_s_box[16*row+col];
+			state[Nb*i+j] = inv_s_box[state[Nb*i+j]];
 		}
 	}
 }
@@ -322,7 +319,7 @@ void sub_word(uint8_t *w) {
 	uint8_t i;
 
 	for (i = 0; i < 4; i++) {
-		w[i] = s_box[16*((w[i] & 0xf0) >> 4) + (w[i] & 0x0f)];
+		w[i] = s_box[w[i]];
 	}
 }
 
@@ -350,7 +347,7 @@ void rot_word(uint8_t *w) {
 void aes_key_expansion(uint8_t *key, uint8_t *w) {
 
 	uint8_t tmp[4];
-	uint8_t i, j;
+	uint8_t i;
 	uint8_t len = Nb*(Nr+1);
 
 	for (i = 0; i < Nk; i++) {
