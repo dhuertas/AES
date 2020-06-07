@@ -286,6 +286,9 @@ void sub_bytes(uint8_t *state) {
 	
 	for (i = 0; i < 4; i++) {
 		for (j = 0; j < Nb; j++) {
+			// s_box row: yyyy ----
+			// s_box col: ---- xxxx
+			// s_box[16*(yyyy) + xxxx] == s_box[yyyyxxxx]
 			state[Nb*i+j] = s_box[state[Nb*i+j]];
 		}
 	}
