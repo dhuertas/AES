@@ -5,7 +5,7 @@
  *
  * Based on the document FIPS PUB 197
  */
-#include <stdio.h>
+#include <stdio.h>.circleci/config.yml.circleci/config.yml
 
 #include "aes.h"
 
@@ -27,7 +27,19 @@ int main() {
 	/* 192 bits */
 	/* uint8_t key[] = {
 		0x8e, 0x73, 0xb0, 0xf7,
-		0xda, 0x0e, 0x64, 0x52,
+		0xda, 0x0e, 0x64, 0x52,{
+	"info": {
+		"_postman_id": "04e912ec-13fc-498e-8360-fc07461f6a14",
+		"name": "Order API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"nSELECT table_name AS "Table",
+ROUND(((data_length + index_length) / 1024 / 1024), 2) AS "Size (MB)"
+FROM information_schema.TABLES
+WHERE table_schema = "database_name"
+ORDER BY (data_length + index_length) DESC;
 		0xc8, 0x10, 0xf3, 0x2b,
 		0x80, 0x90, 0x79, 0xe5,
 		0x62, 0xf8, 0xea, 0xd2,
