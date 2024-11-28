@@ -3,6 +3,9 @@ AES
 
 AES algorithm implementation using C. Check out [this other repo](https://github.com/dhuertas/block-cipher-modes.git) on how to use it with different modes of operation.
 
+# Disclaimer
+This is a proof of concept implementation and **should not be used in a productive environment**! For example a lookup table implementation of the addition in GF2<sup>8</sup> is used which is vulnerable to side channel cache attacks. [See POC](https://github.com/ECLab-ITU/Cache-Side-Channel-Attacks/blob/master/AES%20-%20HalfKey/Flush%2BReload/Readme.md).
+
 # Example
 
 Compile the source code (e.g. using GCC): 
